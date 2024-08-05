@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { useRef } from "react";
 
@@ -6,21 +6,34 @@ function App() {
 	const [range, setRange] = useState(6);
 	const [withNumbers, setWithNumbers] = useState(false);
 	const [specialCharacters, setSpecialCharacters] = useState(false);
-
 	const [password, setPassword] = useState("");
 	console.log(password);
 
-	const generatePassword = (num) => {
+	const generatePassword = useCallback(() => {
 		let generatedPassword = "";
 
 		let items = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-		const numbers = "1234567890";
-		const specialCharacters = "~!@#$%^&*()_-+=?/][|,><";
-		for (let i = 0; i <= range; i++) {
-			generatedPassword += items[i];
+		if (withNumbers) {
+			items += "1234567890";
+		}
+		if (specialCharacters) {
+			items += "~!@#$%^&*()_-+=?/][|,><";
+		}
+
+		for (let i = 1; i <= range; i++) {
+			const itemsIndex = Math.floor(Math.random() * items.length + 1);
+			generatedPassword += items.charAt(itemsIndex);
 		}
 
 		setPassword(generatedPassword);
+	}, [range, withNumbers, specialCharacters]);
+
+	useEffect(() => {
+		generatePassword();
+	}, [range, withNumbers, specialCharacters]);
+
+	const copyPasswordToClipboard = () => {
+		window.navigator.clipboard.writeText(password);
 	};
 
 	return (
@@ -30,11 +43,15 @@ function App() {
 					<h1>Password Generator</h1>
 					<div className="flex w-full my-6">
 						<input
-							className="py-2 w-5/6 rounded-s-xl outline-none"
+							className="py-2 px-4 w-5/6 rounded-s-xl outline-none text-green-600"
 							type="text"
+							value={password}
+							placeholder="Password"
 							readOnly
 						/>
-						<button className="bg-green-500 py-2 -ml-1 rounded-s-none rounded-xl">
+						<button
+							className="bg-green-500 py-2 -ml-1 rounded-s-none rounded-xl shrink-0"
+							onClick={copyPasswordToClipboard}>
 							copy
 						</button>
 					</div>
@@ -43,8 +60,8 @@ function App() {
 							<input
 								type="range"
 								name="length"
-								id="length"
-								defaultValue={6}
+								className="cursor-pointer"
+								defaultValue={range}
 								min={6}
 								max={14}
 								onChange={(e) => {
@@ -58,9 +75,9 @@ function App() {
 								type="checkbox"
 								name="numbers"
 								id="numbers"
+								defaultChecked={withNumbers}
 								onChange={() => {
-									generatePassword();
-									setWithNumbers(true);
+									setWithNumbers((prevState) => !prevState);
 								}}
 							/>
 							<label htmlFor="numbers">Numbers</label>
@@ -70,8 +87,11 @@ function App() {
 								type="checkbox"
 								name="char"
 								id="char"
+								defaultChecked={specialCharacters}
 								onChange={() => {
-									setSpecialCharacters(true);
+									setSpecialCharacters(
+										(prevState) => !prevState
+									);
 								}}
 							/>
 							<label htmlFor="char">Characters</label>
