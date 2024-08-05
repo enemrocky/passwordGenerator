@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
-import { useRef } from "react";
 
 function App() {
 	const [range, setRange] = useState(6);
 	const [withNumbers, setWithNumbers] = useState(false);
 	const [specialCharacters, setSpecialCharacters] = useState(false);
 	const [password, setPassword] = useState("");
-	console.log(password);
 
 	const generatePassword = useCallback(() => {
 		let generatedPassword = "";
