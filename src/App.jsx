@@ -37,7 +37,6 @@ function App() {
 						className="py-2 px-4 w-5/6 rounded-s-xl outline-none text-green-600"
 						type="text"
 						value={password}
-						placeholder="Password"
 						ref={passwordRef}
 						readOnly
 					/>
@@ -55,10 +54,8 @@ function App() {
 							className="cursor-pointer"
 							defaultValue={range}
 							min={6}
-							max={15}
-							onChange={(e) => {
-								setRange(e.target.value);
-							}}
+							max={20}
+							onChange={(e) => setRange(e.target.value)}
 						/>
 						<label htmlFor="length"> Length: {range}</label>
 					</div>
@@ -66,7 +63,6 @@ function App() {
 						<input
 							type="checkbox"
 							name="numbers"
-							id="numbers"
 							defaultChecked={withNumbers}
 							onChange={() => {
 								setWithNumbers((prevState) => !prevState);
@@ -78,7 +74,6 @@ function App() {
 						<input
 							type="checkbox"
 							name="char"
-							id="char"
 							defaultChecked={specialCharacters}
 							onChange={() => {
 								setSpecialCharacters((prevState) => !prevState);
