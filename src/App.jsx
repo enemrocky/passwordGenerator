@@ -66,7 +66,7 @@ function App() {
 									setRange(e.target.value);
 								}}
 							/>
-							<label htmlFor="length">Length: {range}</label>
+							<label htmlFor="length"> Length: {range}</label>
 						</div>
 						<div>
 							<input
@@ -78,7 +78,7 @@ function App() {
 									setWithNumbers((prevState) => !prevState);
 								}}
 							/>
-							<label htmlFor="numbers">Numbers</label>
+							<label htmlFor="numbers"> Numbers</label>
 						</div>
 						<div>
 							<input
@@ -92,7 +92,7 @@ function App() {
 									);
 								}}
 							/>
-							<label htmlFor="char">Characters</label>
+							<label htmlFor="char"> Characters</label>
 						</div>
 					</div>
 				</form>
